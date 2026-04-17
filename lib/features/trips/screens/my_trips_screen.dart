@@ -70,7 +70,7 @@ final _mockTrips = [
     title: 'Rajasthan Royal Tour',
     location: 'Jaipur, Rajasthan',
     imageUrl:
-        'https://images.unsplash.com/photo-1477587458883-47145ed6979e?w=800',
+        'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800',
     startDate: DateTime.now().subtract(const Duration(days: 30)),
     endDate: DateTime.now().subtract(const Duration(days: 24)),
     status: _TripStatus.completed,

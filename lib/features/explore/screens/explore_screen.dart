@@ -45,7 +45,7 @@ const _destinations = [
   _Destination(
     name: 'Jaipur',
     country: 'Rajasthan',
-    image: 'https://images.unsplash.com/photo-1477587458883-47145ed6979e?w=600',
+    image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600',
     tag: 'Culture',
     rating: 4.8,
     tripCount: 211,
@@ -830,7 +830,7 @@ class _PeopleTabState extends State<_PeopleTab> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
-                    childAspectRatio: 0.78,
+                    childAspectRatio: 0.72,
                   ),
                 ),
         ),
@@ -894,6 +894,7 @@ class _PersonCardState extends State<_PersonCard>
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Avatar
               UserAvatar(
@@ -963,7 +964,7 @@ class _PersonCardState extends State<_PersonCard>
               const SizedBox(height: 8),
               _SharedInterests(interests: widget.user.interests),
 
-              const Spacer(),
+              const SizedBox(height: 8),
 
               // Connect button
               GestureDetector(

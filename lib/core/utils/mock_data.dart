@@ -328,7 +328,7 @@ class MockData {
       title: 'Rajasthan Royal Tour',
       location: 'Jaipur, Rajasthan',
       imageUrl:
-          'https://images.unsplash.com/photo-1477587458883-47145ed6979e?w=800',
+          'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800',
       price: 6500,
       rating: 4.9,
       reviewCount: 156,
@@ -486,7 +486,7 @@ class MockData {
     {
       'name': 'Udaipur',
       'image':
-          'https://images.unsplash.com/photo-1477587458883-47145ed6979e?w=400',
+          'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400',
     },
     {
       'name': 'Andaman',

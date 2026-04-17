@@ -56,7 +56,7 @@ final _feedPosts = [
   _FeedPost(
     id: 'f3',
     author: MockData.suggestedUsers[2],
-    imageUrl: 'https://images.unsplash.com/photo-1477587458883-47145ed6979e?w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800',
     caption: 'Colors of Rajasthan 🎨 Jaipur\'s streets are pure art. The culture, the food, the architecture — all 10/10.',
     location: 'Jaipur, Rajasthan',
     likeCount: 315,
@@ -93,7 +93,7 @@ const _banners = [
   {
     'title': 'Rajasthan Royal',
     'subtitle': 'Heritage & culture',
-    'image': 'https://images.unsplash.com/photo-1477587458883-47145ed6979e?w=800',
+    'image': 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800',
     'tag': 'Top Rated',
   },
 ];
