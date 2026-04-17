@@ -1,0 +1,86 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:   # allows manual trigger from GitHub UI
+
+jobs:
+  build:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout code ───────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Java ─────────────────────────────────────────────────────
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # ── 3. Set up Flutter ──────────────────────────────────────────────────
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.4'
+          channel: stable
+          cache: true
+
+      # ── 4. Install dependencies ────────────────────────────────────────────
+      - name: Install dependencies
+        run: flutter pub get
+
+      # ── 5. Analyze (catch errors before building) ──────────────────────────
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      # ── 6. Build APK ───────────────────────────────────────────────────────
+      - name: Build release APK
+        run: flutter build apk --release --no-shrink
+
+      # ── 7. Rename APK with version + date ─────────────────────────────────
+      - name: Rename APK
+        run: |
+          VERSION=$(grep 'version:' pubspec.yaml | head -1 | awk '{print $2}')
+          DATE=$(date +'%Y%m%d')
+          mv build/app/outputs/flutter-apk/app-release.apk \
+             build/app/outputs/flutter-apk/unzolo-v${VERSION}-${DATE}.apk
+          echo "APK_NAME=unzolo-v${VERSION}-${DATE}.apk" >> $GITHUB_ENV
+
+      # ── 8. Upload APK as workflow artifact ────────────────────────────────
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APK_NAME }}
+          path: build/app/outputs/flutter-apk/${{ env.APK_NAME }}
+          retention-days: 30
+
+      # ── 9. Create GitHub Release on push to main ──────────────────────────
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: "Unzolo v${{ github.run_number }} — ${{ github.sha && 'auto build' }}"
+          body: |
+            ## Unzolo APK — Auto Build #${{ github.run_number }}
+
+            **Commit:** `${{ github.sha }}`
+            **Branch:** `${{ github.ref_name }}`
+            **Built at:** ${{ github.event.head_commit.timestamp }}
+
+            ### Install
+            1. Download the `.apk` file below
+            2. On your Android phone, enable **Install from unknown sources** in Settings
+            3. Open the downloaded file and tap Install
+          files: build/app/outputs/flutter-apk/${{ env.APK_NAME }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
